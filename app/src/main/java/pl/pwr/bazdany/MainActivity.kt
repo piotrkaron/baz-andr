@@ -15,6 +15,7 @@ import pl.pwr.bazdany.ui.login.data.model.LoginResponse
 import pl.pwr.bazdany.ui.login.ui.LoginFragment
 import pl.pwr.bazdany.ui.register.data.RegisterDataSource
 import pl.pwr.bazdany.ui.register.data.RegisterRepository
+import pl.pwr.bazdany.ui.trainings.TrainingRepository
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.*
@@ -24,6 +25,7 @@ const val USER_DATA = "USER_DATA"
 
 class MainActivity : AppCompatActivity() {
 
+    val trainingRepo: TrainingRepository = TrainingRepository(RetroProvider.trainingApi)
     val registerRepo: RegisterRepository = RegisterRepository(RegisterDataSource(RetroProvider.registerApi))
     val loginRepo: LoginRepository = LoginRepository(LoginDataSource(RetroProvider.loginApi))
 

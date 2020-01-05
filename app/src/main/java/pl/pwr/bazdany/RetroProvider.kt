@@ -7,6 +7,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import pl.pwr.bazdany.ui.login.data.model.LoginApi
 import pl.pwr.bazdany.ui.register.data.RegisterApi
+import pl.pwr.bazdany.ui.trainings.TrainingApi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -45,6 +46,7 @@ object RetroProvider {
             .build()
     }
 
+    val trainingApi: TrainingApi = retrofit.create(TrainingApi::class.java)
     val loginApi: LoginApi = retrofit.create(LoginApi::class.java)
     val registerApi: RegisterApi = retrofit.create(RegisterApi::class.java)
 
