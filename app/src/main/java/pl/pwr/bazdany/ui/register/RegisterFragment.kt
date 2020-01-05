@@ -18,6 +18,8 @@ import pl.pwr.bazdany.MainActivity
 import pl.pwr.bazdany.R
 import pl.pwr.bazdany.getViewModel
 import pl.pwr.bazdany.ui.login.ui.afterTextChanged
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -103,7 +105,12 @@ class RegisterFragment : Fragment() {
             // date picker dialog
             val picker = DatePickerDialog(
                 this.requireContext(),
-                OnDateSetListener { view, year, monthOfYear, dayOfMonth -> date.setText(dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year) },
+                OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    val locDate = LocalDate.of(year, monthOfYear+1, dayOfMonth)
+                    val format = locDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+
+                    date.setText(format)
+                },
                 year,
                 month,
                 day

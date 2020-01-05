@@ -26,7 +26,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
             if (result is Effect.Success) {
                 _loginResult.value =
-                    LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+                    LoginResult(success = LoggedInUserView(displayName = result.data.displayName, dto = result.data.loginResponse))
 
                 Session.setup(result.data.loginResponse)
 

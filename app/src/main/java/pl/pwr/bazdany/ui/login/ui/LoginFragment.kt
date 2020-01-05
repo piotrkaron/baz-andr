@@ -55,7 +55,7 @@ class LoginFragment : Fragment() {
         }
 
         if((activity as MainActivity).userIsLoggedIn()){
-            navController.navigate(R.id.action_navigation_login_to_navigation_home)
+            navController.navigate(R.id.action_navigation_login_to_navigation_trainings)
             return
         }
 
@@ -119,10 +119,12 @@ class LoginFragment : Fragment() {
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
+        (activity as MainActivity).saveUserData(model.dto)
+
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
 
-        navController.navigate(R.id.action_navigation_login_to_navigation_home)
+        navController.navigate(R.id.action_navigation_login_to_navigation_trainings)
 
         Toast.makeText(
             activity?.applicationContext,

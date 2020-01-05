@@ -38,6 +38,7 @@ object Session {
         height = user.userDto.height
         weight = user.userDto.weight
         birthdate = dtf.parse(user.userDto.birth_day)
+        email = user.userDto.email
     }
 
 }

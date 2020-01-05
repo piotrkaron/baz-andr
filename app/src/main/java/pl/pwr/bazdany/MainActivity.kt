@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+/*        val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
@@ -43,10 +43,15 @@ class MainActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        navView.setupWithNavController(navController)*/
     }
 
     fun userIsLoggedIn(): Boolean {
+        with(Session){
+            if(token == null) return false
+            if(expiryDate == null || expiryDate!!.before(Date.from(Instant.now()))) return false
+        }
+
         val user = readUserData() ?: return false
 
         val dtf = SimpleDateFormat("dd-MM-yyyy")
@@ -59,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun saveUserData(data: LoginResponse){
+    fun saveUserData(data: LoginResponse){
         val adapter = RetroProvider.moshi.adapter(LoginResponse::class.java)
         val string = adapter.toJson(data)
 

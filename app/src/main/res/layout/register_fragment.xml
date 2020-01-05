@@ -14,7 +14,6 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="date"
-        android:text="Data urodzenia"
         app:layout_constraintStart_toStartOf="@+id/surname"
         app:layout_constraintTop_toBottomOf="@+id/surname" />
 
@@ -26,7 +25,6 @@
         android:layout_marginEnd="52dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Imię"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,7 +35,6 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Nazwisko"
         app:layout_constraintStart_toStartOf="@+id/name"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 

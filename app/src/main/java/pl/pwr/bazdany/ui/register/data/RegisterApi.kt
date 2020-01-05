@@ -1,12 +1,13 @@
 package pl.pwr.bazdany.ui.register.data
 
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface RegisterApi {
 
     @POST("/register")
-    suspend fun register(request: RegisterRequest): Response<RegisterResponse>
+    suspend fun register(@Body request: RegisterRequest): Response<RegisterResponse>
 
 }
 
