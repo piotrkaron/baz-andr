@@ -1,30 +1,30 @@
 package pl.pwr.bazdany.ui.register
 
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.fragment_login.*
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.register_fragment.*
 import pl.pwr.bazdany.MainActivity
-
 import pl.pwr.bazdany.R
 import pl.pwr.bazdany.getViewModel
-import pl.pwr.bazdany.ui.login.ui.LoggedInUserView
 import pl.pwr.bazdany.ui.login.ui.afterTextChanged
+import java.util.*
+
 
 class RegisterFragment : Fragment() {
 
-    private val viewModel: RegisterViewModel = getViewModel {
-        RegisterViewModel(
-            (activity as MainActivity).registerRepo
-        )
-    }
+    private lateinit var navController: NavController
+    private lateinit var viewModel: RegisterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +33,21 @@ class RegisterFragment : Fragment() {
         return inflater.inflate(R.layout.register_fragment, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        loading.visibility = View.GONE
+
+        viewModel = getViewModel {
+            RegisterViewModel(
+                (activity as MainActivity).registerRepo
+            )
+        }
 
         viewModel.registerFormState.observe(this@RegisterFragment, Observer {
             val registerState = it ?: return@Observer
@@ -43,7 +56,7 @@ class RegisterFragment : Fragment() {
             register.isEnabled = registerState.isDataValid
 
             if (registerState.usernameError != null) {
-                username.error = getString(registerState.usernameError)
+                email.error = getString(registerState.usernameError)
             }
             if (registerState.passwordError != null) {
                 password.error = getString(registerState.passwordError)
@@ -71,41 +84,63 @@ class RegisterFragment : Fragment() {
             }
         })
 
-        username.afterTextChanged {
-            viewModel.registerDataChanged(
-                username.text.toString(),
-                password.text.toString()
+        email.afterTextChanged {notifyVmTextChanged()}
+        password.afterTextChanged {notifyVmTextChanged()}
+        date.afterTextChanged {notifyVmTextChanged()}
+        name.afterTextChanged {notifyVmTextChanged()}
+        surname.afterTextChanged {notifyVmTextChanged()}
+        height.afterTextChanged {notifyVmTextChanged()}
+        weight.afterTextChanged {notifyVmTextChanged()}
+
+
+
+        date.setOnClickListener {
+            val cldr = Calendar.getInstance()
+            val day = cldr[Calendar.DAY_OF_MONTH]
+            val month = cldr[Calendar.MONTH]
+            val year = cldr[Calendar.YEAR]
+            // date picker dialog
+            // date picker dialog
+            val picker = DatePickerDialog(
+                this.requireContext(),
+                OnDateSetListener { view, year, monthOfYear, dayOfMonth -> date.setText(dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year) },
+                year,
+                month,
+                day
             )
-        }
-
-        password.apply {
-            afterTextChanged {
-                viewModel.registerDataChanged(
-                    username.text.toString(),
-                    password.text.toString()
-                )
-            }
-
-
-
-
+            picker.show()
         }
 
         register.setOnClickListener {
             loading.visibility = View.VISIBLE
             viewModel.register(
-                username.text.toString(),
+                email.text.toString(),
                 password.text.toString(),
                 name.text.toString(),
                 surname.text.toString(),
                 date.text.toString(),
-                weight.text.toStrin(),
-                height.text.toString())
+                weight.text.toString().toIntOrNull(),
+                height.text.toString().toIntOrNull())
         }
     }
 
+    private fun notifyVmTextChanged() {
+        val calendar = Calendar.DATE
+
+        viewModel.registerDataChanged(
+            email.text.toString(),
+            password.text.toString(),
+            name.text.toString(),
+            surname.text.toString(),
+            date.text.toString(),
+            weight.text.toString().toIntOrNull(),
+            height.text.toString().toIntOrNull()
+        )
+    }
+
+
     private fun registerSuccessful() {
-        // TODO : initiate successful logged in experience
+        navController.popBackStack()
         Toast.makeText(
             activity?.applicationContext,
             "Zarejestrowano",
@@ -118,4 +153,4 @@ class RegisterFragment : Fragment() {
     }
 }
 
-}
+

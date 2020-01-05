@@ -6,5 +6,5 @@ package pl.pwr.bazdany.ui.login.data.model
 data class LoggedInUser(
     val userId: String,
     val displayName: String,
-    val token: String
+    val loginResponse: LoginResponse
 )

@@ -16,4 +16,6 @@
     <string name="invalid_surname">Nazwisko nie może być puste</string>
     <string name="invalid_date">Błędna data</string>
     <string name="register_failed">Rejestracja nie powiodła się</string>
+    <string name="invalid_weight">Waga nie może przekraczać 200</string>
+    <string name="invalid_height">Wzrost nie może przekraczać 245</string>
 </resources>

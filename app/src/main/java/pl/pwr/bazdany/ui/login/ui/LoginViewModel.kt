@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.pwr.bazdany.Effect
 import pl.pwr.bazdany.R
+import pl.pwr.bazdany.Session
 import pl.pwr.bazdany.ui.login.data.LoginRepository
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
@@ -26,6 +27,9 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
             if (result is Effect.Success) {
                 _loginResult.value =
                     LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+
+                Session.setup(result.data.loginResponse)
+
             } else {
                 _loginResult.value = LoginResult(error = R.string.login_failed)
             }

@@ -19,7 +19,10 @@ class LoginDataSource(val api: LoginApi) : BaseSource() {
             is Success -> {
                 val data = resp.data
 
-                Success(LoggedInUser(data.userId.toString(), "",data.token))
+                Success(LoggedInUser(
+                    data.userId.toString(),
+                    data.userDto.name + " " + data.userDto.surname,
+                    data))
             }
             is Error -> {
                 resp

@@ -26,10 +26,9 @@ class RegisterViewModel(
     private val _registerResult = MutableLiveData<RegisterResult>()
     val registerResult: LiveData<RegisterResult> = _registerResult
 
-    fun register(username: String, password: String, name: String, surname: String,  calendar: Calendar, weight: Int?, height: Int?) {
+    fun register(username: String, password: String, name: String, surname: String,  date: String, weight: Int?, height: Int?) {
         viewModelScope.launch{
-            val format = SimpleDateFormat("dd-MM-yyyy")
-            val request = RegisterRequest(username, password, name, surname, format.format(calendar.time), weight, height)
+            val request = RegisterRequest(username, password, name, surname, date, weight, height)
             val result = registerRepository.register(request)
 
             if (result is Effect.Success) {
@@ -41,7 +40,7 @@ class RegisterViewModel(
         }
     }
 
-    fun registerDataChanged(username: String, password: String, name: String, surname: String, calendar: Calendar) {
+    fun registerDataChanged(username: String, password: String, name: String, surname: String, calendar: String, height: Int?, weight: Int?) {
         if (!isUserNameValid(username)) {
             _registerForm.value = RegisterFormState(usernameError = R.string.invalid_username)
         } else if (!isPasswordValid(password)) {
@@ -52,6 +51,10 @@ class RegisterViewModel(
             _registerForm.value = RegisterFormState(surnameError = R.string.invalid_surname)
         } else if (!isDateValid(calendar)) {
             _registerForm.value = RegisterFormState(dateError = R.string.invalid_date)
+        } else if (height != null && !isHeightValid(height)) {
+            _registerForm.value = RegisterFormState(heightError = R.string.invalid_height)
+        } else if (weight != null && !isWeightValid(weight)) {
+            _registerForm.value = RegisterFormState(weightError = R.string.invalid_weight)
         } else {
             _registerForm.value = RegisterFormState(isDataValid = true)
         }
@@ -73,7 +76,14 @@ class RegisterViewModel(
 
     private fun isNameValid(name: String) = name.isNotBlank()
     private fun isSurnameValid(name: String) = name.isNotBlank()
-    private fun isDateValid(calendar: Calendar) = calendar.time.before(Date.from(Instant.now()))
+    private fun isDateValid(date: String): Boolean {
+        val format = SimpleDateFormat("dd-MM-yyyy")
+        val date = format.parse(date)
+
+        return date.before(Date.from(Instant.now()))
+    }
+    private fun isHeightValid(height: Int) = height < 245
+    private fun isWeightValid(weight: Int) = weight < 200
 }
 
 data class RegisterFormState(
@@ -82,6 +92,8 @@ data class RegisterFormState(
     val surnameError: Int? = null,
     val nameError: Int? = null,
     val dateError: Int? = null,
+    val heightError: Int? = null,
+    val weightError: Int? = null,
     val isDataValid: Boolean = false
 )
 

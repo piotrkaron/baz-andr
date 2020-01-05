@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_login.*
 import pl.pwr.bazdany.MainActivity
 import pl.pwr.bazdany.R
@@ -20,11 +22,14 @@ import pl.pwr.bazdany.getViewModel
 
 class LoginFragment : Fragment() {
 
-    private val loginViewModel: LoginViewModel = getViewModel {
-        LoginViewModel(
-            (activity as MainActivity).loginRepo
-        )
+    companion object{
+        @JvmStatic
+        fun newInstance(): Fragment = LoginFragment()
     }
+
+    private lateinit var loginViewModel: LoginViewModel
+
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +38,26 @@ class LoginFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+
+        register.setOnClickListener { navController.navigate(R.id.action_navigation_login_to_navigation_register) }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        loginViewModel = getViewModel {
+            LoginViewModel(
+                (activity as MainActivity).loginRepo
+            )
+        }
+
+        if((activity as MainActivity).userIsLoggedIn()){
+            navController.navigate(R.id.action_navigation_login_to_navigation_home)
+            return
+        }
 
         loginViewModel.loginFormState.observe(this@LoginFragment, Observer {
             val loginState = it ?: return@Observer
@@ -98,7 +121,9 @@ class LoginFragment : Fragment() {
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
-        // TODO : initiate successful logged in experience
+
+        navController.navigate(R.id.action_navigation_login_to_navigation_home)
+
         Toast.makeText(
             activity?.applicationContext,
             "$welcome $displayName",
