@@ -29,12 +29,13 @@ class MainActivity : AppCompatActivity() {
     val registerRepo: RegisterRepository = RegisterRepository(RegisterDataSource(RetroProvider.registerApi))
     val loginRepo: LoginRepository = LoginRepository(LoginDataSource(RetroProvider.loginApi))
 
+    private lateinit var navView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-/*        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
@@ -45,13 +46,13 @@ class MainActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)*/
+        navView.setupWithNavController(navController)
+        navView.visibility = View.GONE
     }
 
     fun userIsLoggedIn(): Boolean {
         with(Session){
-            if(token == null) return false
-            if(expiryDate == null || expiryDate!!.before(Date.from(Instant.now()))) return false
+            if(token != null && (expiryDate != null && expiryDate!!.after(Date.from(Instant.now())))) return true
         }
 
         val user = readUserData() ?: return false
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         if(date.before(Date.from(Instant.now()))) return false
 
         Session.setup(user)
-
+        navView.visibility = View.VISIBLE
         return true
     }
 
