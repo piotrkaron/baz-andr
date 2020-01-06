@@ -8,6 +8,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -19,6 +21,8 @@ class TrainingsFragment : Fragment() {
 
     private lateinit var vm: TrainingsViewModel
     private val trainingsAdapter = TrainingsAdapter()
+
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +38,8 @@ class TrainingsFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = trainingsAdapter
         }
+        navController = Navigation.findNavController(view)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -41,9 +47,19 @@ class TrainingsFragment : Fragment() {
 
         vm = getViewModel { TrainingsViewModel((activity as MainActivity).trainingRepo) }
 
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if(destination.id == R.id.navigation_trainings){
+                vm.refresh()
+            }
+        }
+
         vm.isLoading.observe(viewLifecycleOwner, Observer { showLoading(it) })
         vm.info.observe(viewLifecycleOwner, Observer { it?.let { showInfo(it) } })
         vm.trainings.observe(viewLifecycleOwner, Observer { updateAdpter(it) })
+
+        fab.setOnClickListener {
+            navController.navigate(R.id.action_navigation_trainings_to_createTreningFragment)
+        }
 
     }
 
@@ -60,6 +76,9 @@ class TrainingsFragment : Fragment() {
         trainingsAdapter.updateList(it)
         trainingsAdapter.notifyDataSetChanged()
     }
+
+
+
 }
 
 class TrainingsAdapter : RecyclerView.Adapter<TrainingsAdapter.ViewHolder>() {

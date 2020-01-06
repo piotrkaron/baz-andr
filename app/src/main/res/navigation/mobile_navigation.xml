@@ -11,43 +11,26 @@
         android:label="@string/title_trainings"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_navigation_trainings_to_navigation_groups"
-            app:destination="@id/navigation_groups" />
-        <action
-            android:id="@+id/action_navigation_trainings_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
+            android:id="@+id/action_navigation_trainings_to_createTreningFragment"
+            app:destination="@id/navigation_create_trainings" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_groups"
         android:name="pl.pwr.bazdany.ui.groups.GroupsFragment"
         android:label="@string/title_groups"
-        tools:layout="@layout/fragment_dashboard" >
-        <action
-            android:id="@+id/action_navigation_groups_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
-        <action
-            android:id="@+id/action_navigation_groups_to_navigation_trainings"
-            app:destination="@id/navigation_trainings" />
-    </fragment>
+        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="pl.pwr.bazdany.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_notifications" >
-        <action
-            android:id="@+id/action_navigation_profile_to_navigation_groups"
-            app:destination="@id/navigation_groups" />
-        <action
-            android:id="@+id/action_navigation_profile_to_navigation_trainings"
-            app:destination="@id/navigation_trainings" />
-    </fragment>
+        tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/navigation_login"
         android:name="pl.pwr.bazdany.ui.login.ui.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_navigation_login_to_navigation_register"
             app:destination="@id/navigation_register" />
@@ -60,10 +43,23 @@
     <fragment
         android:id="@+id/navigation_register"
         android:name="pl.pwr.bazdany.ui.register.RegisterFragment"
-        android:label="register_fragment"
-        tools:layout="@layout/register_fragment" >
+        android:label="Zarejestruj"
+        tools:layout="@layout/register_fragment">
         <action
             android:id="@+id/action_navigation_register_to_navigation_login"
-            app:destination="@id/navigation_login" />
+            app:destination="@id/navigation_login"
+            app:popUpTo="@+id/navigation_login"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_create_trainings"
+        android:name="pl.pwr.bazdany.ui.trainings.CreateTreningFragment"
+        android:label="Nowy trening"
+        tools:layout="@layout/create_trening_fragment">
+        <action
+            android:id="@+id/action_createTreningFragment_to_navigation_trainings"
+            app:destination="@id/navigation_trainings"
+            app:popUpTo="@+id/navigation_trainings"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
