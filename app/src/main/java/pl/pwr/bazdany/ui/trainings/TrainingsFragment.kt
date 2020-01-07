@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_trainings.*
 import pl.pwr.bazdany.MainActivity
 import pl.pwr.bazdany.R
 import pl.pwr.bazdany.getViewModel
@@ -29,7 +29,7 @@ class TrainingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.fragment_trainings, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

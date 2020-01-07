@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.create_trening_fragment.*
+import kotlinx.android.synthetic.main.fragment_training_create.*
 import pl.pwr.bazdany.MainActivity
 import pl.pwr.bazdany.R
 import pl.pwr.bazdany.getViewModel
@@ -33,7 +33,7 @@ class CreateTreningFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.create_trening_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_training_create, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

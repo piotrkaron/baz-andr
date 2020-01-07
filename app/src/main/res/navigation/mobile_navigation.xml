@@ -9,7 +9,7 @@
         android:id="@+id/navigation_trainings"
         android:name="pl.pwr.bazdany.ui.trainings.TrainingsFragment"
         android:label="@string/title_trainings"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_trainings" >
         <action
             android:id="@+id/action_navigation_trainings_to_createTreningFragment"
             app:destination="@id/navigation_create_trainings" />
@@ -19,13 +19,13 @@
         android:id="@+id/navigation_groups"
         android:name="pl.pwr.bazdany.ui.groups.GroupsFragment"
         android:label="@string/title_groups"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_groups" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="pl.pwr.bazdany.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/navigation_login"
         android:name="pl.pwr.bazdany.ui.login.ui.LoginFragment"
@@ -44,7 +44,7 @@
         android:id="@+id/navigation_register"
         android:name="pl.pwr.bazdany.ui.register.RegisterFragment"
         android:label="Zarejestruj"
-        tools:layout="@layout/register_fragment">
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_navigation_register_to_navigation_login"
             app:destination="@id/navigation_login"
@@ -55,7 +55,7 @@
         android:id="@+id/navigation_create_trainings"
         android:name="pl.pwr.bazdany.ui.trainings.CreateTreningFragment"
         android:label="Nowy trening"
-        tools:layout="@layout/create_trening_fragment">
+        tools:layout="@layout/fragment_training_create">
         <action
             android:id="@+id/action_createTreningFragment_to_navigation_trainings"
             app:destination="@id/navigation_trainings"

@@ -21,7 +21,7 @@ class GroupsFragment : Fragment() {
     ): View? {
         groupsViewModel =
                 ViewModelProviders.of(this).get(GroupsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        val root = inflater.inflate(R.layout.fragment_groups, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
         groupsViewModel.text.observe(this, Observer {
             textView.text = it
