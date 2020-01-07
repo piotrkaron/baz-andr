@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import pl.pwr.bazdany.ui.groups.GroupRepository
 import pl.pwr.bazdany.ui.login.data.LoginDataSource
 import pl.pwr.bazdany.ui.login.data.LoginRepository
 import pl.pwr.bazdany.ui.login.data.model.LoginResponse
@@ -25,6 +26,7 @@ const val USER_DATA = "USER_DATA"
 
 class MainActivity : AppCompatActivity() {
 
+    val groupRepo: GroupRepository = GroupRepository(RetroProvider.groupApi)
     val trainingRepo: TrainingRepository = TrainingRepository(RetroProvider.trainingApi)
     val registerRepo: RegisterRepository = RegisterRepository(RegisterDataSource(RetroProvider.registerApi))
     val loginRepo: LoginRepository = LoginRepository(LoginDataSource(RetroProvider.loginApi))

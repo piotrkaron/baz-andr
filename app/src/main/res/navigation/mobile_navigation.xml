@@ -19,7 +19,11 @@
         android:id="@+id/navigation_groups"
         android:name="pl.pwr.bazdany.ui.groups.GroupsFragment"
         android:label="@string/title_groups"
-        tools:layout="@layout/fragment_groups" />
+        tools:layout="@layout/fragment_groups" >
+        <action
+            android:id="@+id/action_navigation_groups_to_navigation_group_create2"
+            app:destination="@id/navigation_group_create" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -62,4 +66,9 @@
             app:popUpTo="@+id/navigation_trainings"
             app:popUpToInclusive="true" />
     </fragment>
+    <dialog
+        android:id="@+id/navigation_group_create"
+        android:name="pl.pwr.bazdany.ui.groups.GroupCreateFragment"
+        android:label="Utwórz grupę"
+        tools:layout="@layout/group_create_fragment" />
 </navigation>

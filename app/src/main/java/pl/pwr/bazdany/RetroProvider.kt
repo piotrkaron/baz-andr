@@ -5,6 +5,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import pl.pwr.bazdany.ui.groups.GroupApi
 import pl.pwr.bazdany.ui.login.data.model.LoginApi
 import pl.pwr.bazdany.ui.register.data.RegisterApi
 import pl.pwr.bazdany.ui.trainings.TrainingApi
@@ -49,7 +50,7 @@ object RetroProvider {
     val trainingApi: TrainingApi = retrofit.create(TrainingApi::class.java)
     val loginApi: LoginApi = retrofit.create(LoginApi::class.java)
     val registerApi: RegisterApi = retrofit.create(RegisterApi::class.java)
-
+    val groupApi: GroupApi = retrofit.create(GroupApi::class.java)
 }
 
 class AuthInterceptor : Interceptor {
