@@ -37,7 +37,6 @@ class TrainingsViewModel(
                 is Effect.Success -> _trainings.postValue(trainings.data)
                 is Effect.Error ->{
                     _info.postValue(trainings.message)
-                    _info.postValue(null)
                 }
             }
 

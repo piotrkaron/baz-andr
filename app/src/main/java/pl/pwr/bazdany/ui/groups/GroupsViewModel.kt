@@ -17,6 +17,8 @@ class GroupsViewModel(
     private val repo: GroupRepository
 ) : ViewModel() {
 
+    val isLoading = MutableLiveData<Boolean>(false)
+
     private val _groups = MutableLiveData<List<GroupDomain>>(listOf())
     val groups: LiveData<List<GroupDomain>> get() = _groups
 
@@ -26,18 +28,16 @@ class GroupsViewModel(
     private val _error = MutableLiveData<String?>(null)
     val error: LiveData<String?> get() = _error
 
-    init {
-        getGroups()
-    }
-
-    private fun getGroups() {
+    fun refresh() {
         viewModelScope.launch {
+            isLoading.postValue(true)
             val res = repo.getGroups()
 
             when (res) {
                 is Effect.Success -> _groups.postValue(res.data)
                 is Effect.Error -> _error.postValue(res.message)
             }
+            isLoading.postValue(false)
         }
     }
 
@@ -47,6 +47,7 @@ class GroupsViewModel(
 
     fun joinGroup(id: Long) {
         viewModelScope.launch {
+            isLoading.postValue(true)
             val res = repo.joinGroup(id)
 
             when (res) {
@@ -54,7 +55,8 @@ class GroupsViewModel(
                 is Effect.Error -> _error.postValue(res.message)
             }
 
-            getGroups()
+            refresh()
+            isLoading.postValue(false)
         }
     }
 }

@@ -113,7 +113,6 @@ class CreateTreningFragment : Fragment() {
             )
             picker.show()
         }
-
         time_tv.setOnClickListener {
             TimePickerDialog(
                 this.requireContext(),

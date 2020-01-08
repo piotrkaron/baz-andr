@@ -50,8 +50,8 @@ class GroupsFragment : Fragment() {
             info.observe(viewLifecycleOwner, Observer { onInfo(it) })
             error.observe(viewLifecycleOwner, Observer { onError(it) })
             groups.observe(viewLifecycleOwner, Observer { groupsAdapter.updateGroups(it) })
+            isLoading.observe(viewLifecycleOwner, Observer { onLoading(it) })
         }
-
 
         groups_recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -61,6 +61,27 @@ class GroupsFragment : Fragment() {
         fab.setOnClickListener {
             navController.navigate(R.id.action_navigation_groups_to_navigation_group_create2)
         }
+
+        swipe_root.setOnRefreshListener {
+            vm.refresh()
+        }
+
+    }
+
+    private fun onLoading(it: Boolean) {
+        if(it) {
+            swipe_root.isRefreshing = false
+            loading.visibility = View.VISIBLE
+        }
+        else {
+            loading.visibility = View.GONE
+            swipe_root.isRefreshing = false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        vm.refresh()
     }
 
     private fun onInfo(it: String?) {
