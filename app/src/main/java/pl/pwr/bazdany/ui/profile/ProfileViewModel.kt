@@ -1,13 +1,17 @@
 package pl.pwr.bazdany.ui.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import pl.pwr.bazdany.ui.login.data.LoginRepository
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel(
+    val repo: LoginRepository
+) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+    fun logout(){
+        viewModelScope.launch {
+            repo.logout()
+        }
     }
-    val text: LiveData<String> = _text
 }

@@ -30,6 +30,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
                 Session.setup(result.data.loginResponse)
 
+                _loginResult.value = null
             } else {
                 _loginResult.value = LoginResult(error = R.string.login_failed)
             }

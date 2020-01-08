@@ -2,6 +2,7 @@ package pl.pwr.bazdany.ui.login.data.model
 
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -10,6 +11,9 @@ interface LoginApi {
 
     @POST("/applogin")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
+
+    @GET("/api/logout")
+    suspend fun logout(): Response<Any>
 
 }
 

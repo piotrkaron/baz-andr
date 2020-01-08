@@ -31,8 +31,8 @@ class LoginDataSource(val api: LoginApi) : BaseSource() {
     }
 
 
-    fun logout() {
-        // TODO: revoke authentication
+    suspend fun logout() {
+        api.logout()
     }
 }
 

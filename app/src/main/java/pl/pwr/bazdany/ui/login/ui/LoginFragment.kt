@@ -22,11 +22,6 @@ import pl.pwr.bazdany.getViewModel
 
 class LoginFragment : Fragment() {
 
-    companion object{
-        @JvmStatic
-        fun newInstance(): Fragment = LoginFragment()
-    }
-
     private lateinit var loginViewModel: LoginViewModel
 
     private lateinit var navController: NavController
@@ -59,7 +54,7 @@ class LoginFragment : Fragment() {
             return
         }
 
-        loginViewModel.loginFormState.observe(this@LoginFragment, Observer {
+        loginViewModel.loginFormState.observe(viewLifecycleOwner, Observer {
             val loginState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
@@ -73,7 +68,7 @@ class LoginFragment : Fragment() {
             }
         })
 
-        loginViewModel.loginResult.observe(this@LoginFragment, Observer {
+        loginViewModel.loginResult.observe(viewLifecycleOwner, Observer {
             val loginResult = it ?: return@Observer
 
             loading.visibility = View.GONE
@@ -118,19 +113,21 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
-        (activity as MainActivity).saveUserData(model.dto)
+    private fun updateUiWithUser(model: LoggedInUserView?) {
+        model?.let {
+            (activity as MainActivity).saveUserData(model.dto)
 
-        val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
+            val welcome = getString(R.string.welcome)
+            val displayName = model.displayName
 
-        navController.navigate(R.id.action_navigation_login_to_navigation_trainings)
+            navController.navigate(R.id.action_navigation_login_to_navigation_trainings)
 
-        Toast.makeText(
-            activity?.applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
+            Toast.makeText(
+                activity?.applicationContext,
+                "$welcome $displayName",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

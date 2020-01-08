@@ -67,7 +67,7 @@ enum class TrainingTypes(val value: String){
     BIKE("Jazda na rowerze"),
     RUNNING("Bieganie"),
     SKIING("Narciarstwo"),
-    SWIMMING("Pływanie"),
+    SWIMMING("Plywanie"),
     OTHER("Inne");
 
     companion object{

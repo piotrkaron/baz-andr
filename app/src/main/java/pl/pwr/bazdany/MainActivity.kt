@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -27,33 +28,66 @@ class MainActivity : AppCompatActivity() {
 
     val groupRepo: GroupRepository = GroupRepository(RetroProvider.groupApi)
     val trainingRepo: TrainingRepository = TrainingRepository(RetroProvider.trainingApi)
-    val registerRepo: RegisterRepository = RegisterRepository(RegisterDataSource(RetroProvider.registerApi))
+    val registerRepo: RegisterRepository =
+        RegisterRepository(RegisterDataSource(RetroProvider.registerApi))
     val loginRepo: LoginRepository = LoginRepository(LoginDataSource(RetroProvider.loginApi))
 
     private lateinit var navView: BottomNavigationView
 
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //setSupportActionBar(findViewById(R.id.my_toolbar))
 
         navView = findViewById(R.id.nav_view)
 
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_trainings, R.id.navigation_stats, R.id.navigation_groups, R.id.navigation_profile
+                R.id.navigation_trainings,
+                R.id.navigation_stats,
+                R.id.navigation_groups,
+                R.id.navigation_profile
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         navView.visibility = View.GONE
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+/*            if(destination.id == R.id.navigation_trainings){
+                navView.visibility = View.VISIBLE
+            }*/
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+/*        if(userIsLoggedIn())
+            showBar()*/
+    }
+
+    fun showBar(){
+        navView.visibility = View.VISIBLE
+    }
+
+    fun logout(): Boolean {
+
+        clearSession()
+        navController.popBackStack(R.id.navigation_login, false)
+        navView.visibility = View.GONE
+
+        return true
     }
 
     fun userIsLoggedIn(): Boolean {
-        with(Session){
-            if(token != null && (expiryDate != null && expiryDate!!.after(Date.from(Instant.now())))) return true
+        with(Session) {
+            if (token != null && (expiryDate != null && expiryDate!!.after(Date.from(Instant.now())))) return true
         }
 
         val user = readUserData() ?: return false
@@ -61,14 +95,23 @@ class MainActivity : AppCompatActivity() {
         val dtf = SimpleDateFormat("dd-MM-yyyy")
         val date = dtf.parse(user.expireAt)
 
-        if(date.before(Date.from(Instant.now()))) return false
+        if (date.before(Date.from(Instant.now()))) return false
 
         Session.setup(user)
         navView.visibility = View.VISIBLE
         return true
     }
 
-    fun saveUserData(data: LoginResponse){
+    private fun clearSession() {
+        getSharedPreferences(USER_PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .clear()
+            .apply()
+
+        Session.destroy()
+    }
+
+    fun saveUserData(data: LoginResponse) {
         val adapter = RetroProvider.moshi.adapter(LoginResponse::class.java)
         val string = adapter.toJson(data)
 
@@ -82,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         val string = getSharedPreferences(USER_PREFS, Context.MODE_PRIVATE)
             .getString(USER_DATA, "")
 
-        if(string == null || string.isBlank()) return null
+        if (string == null || string.isBlank()) return null
 
         val adapter = RetroProvider.moshi.adapter(LoginResponse::class.java)
 

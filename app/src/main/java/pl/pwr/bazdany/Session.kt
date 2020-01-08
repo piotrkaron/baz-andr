@@ -41,4 +41,17 @@ object Session {
         email = user.userDto.email
     }
 
+    fun destroy() {
+        userId = null
+        token = null
+        expiryDate = null
+
+        name = null
+        surname = null
+        height = null
+        weight = null
+        birthdate = null
+        email = null
+    }
+
 }

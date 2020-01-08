@@ -61,6 +61,8 @@ class TrainingsFragment : Fragment() {
             navController.navigate(R.id.action_navigation_trainings_to_createTreningFragment)
         }
 
+        (activity as MainActivity).showBar()
+
     }
 
     private fun showLoading(it: Boolean) {
@@ -76,8 +78,6 @@ class TrainingsFragment : Fragment() {
         trainingsAdapter.updateList(it)
         trainingsAdapter.notifyDataSetChanged()
     }
-
-
 
 }
 
