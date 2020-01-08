@@ -2,7 +2,9 @@ package pl.pwr.bazdany.ui.trainings
 
 import pl.pwr.bazdany.BaseSource
 import pl.pwr.bazdany.Effect
+import pl.pwr.bazdany.ui.StatDomain
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -27,6 +29,17 @@ class TrainingRepository(private val api: TrainingApi) : BaseSource() {
 
         return when (val response = executeRequest { api.createTraining(dto) }) {
             is Effect.Success -> Effect.Success(response.data)
+            is Effect.Error -> Effect.Error(
+                "Błąd tworzenia treningu."
+            )
+        }
+
+    }
+
+    suspend fun getStats(start: String, end: String): Effect<List<StatDomain>> {
+
+        return when (val response = executeRequest { api.getStats(DateRangeDto(start, end)) }) {
+            is Effect.Success -> Effect.Success(response.data.map{it.toDomain()})
             is Effect.Error -> Effect.Error(
                 "Błąd tworzenia treningu."
             )
@@ -100,3 +113,19 @@ fun TrainingDto.toDomain(): TrainingDomain{
         id,format, date, type.name, type.calories * duration, owner.name, owner.surname
     )
 }
+
+data class DateRangeDto(
+    val start: String,
+    val end: String
+)
+
+data class StatsDto(
+    val name: String,
+    val durationSum: String,
+    val burntCaloriesSum: Double,
+    val trainingCount: Int
+)
+
+fun StatsDto.toDomain() = StatDomain(
+    this.name, this.durationSum, this.burntCaloriesSum, this.trainingCount
+)

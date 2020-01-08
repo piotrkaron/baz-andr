@@ -13,4 +13,6 @@ interface TrainingApi {
     @POST("/api/training")
     suspend fun createTraining(@Body dto: NewTrainingDto): Response<UploadResponse>
 
+    @POST("/api/stats")
+    suspend fun getStats(@Body dto: DateRangeDto): Response<List<StatsDto>>
 }

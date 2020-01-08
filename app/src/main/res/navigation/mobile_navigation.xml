@@ -71,4 +71,9 @@
         android:name="pl.pwr.bazdany.ui.groups.GroupCreateFragment"
         android:label="Utwórz grupę"
         tools:layout="@layout/group_create_fragment" />
+    <fragment
+        android:id="@+id/navigation_stats"
+        android:name="pl.pwr.bazdany.ui.StatsFragment"
+        android:label="Statystyki"
+        tools:layout="@layout/stats_fragment" />
 </navigation>

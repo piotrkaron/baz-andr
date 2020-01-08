@@ -13,7 +13,6 @@ import pl.pwr.bazdany.ui.groups.GroupRepository
 import pl.pwr.bazdany.ui.login.data.LoginDataSource
 import pl.pwr.bazdany.ui.login.data.LoginRepository
 import pl.pwr.bazdany.ui.login.data.model.LoginResponse
-import pl.pwr.bazdany.ui.login.ui.LoginFragment
 import pl.pwr.bazdany.ui.register.data.RegisterDataSource
 import pl.pwr.bazdany.ui.register.data.RegisterRepository
 import pl.pwr.bazdany.ui.trainings.TrainingRepository
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_trainings, R.id.navigation_groups, R.id.navigation_profile
+                R.id.navigation_trainings, R.id.navigation_stats, R.id.navigation_groups, R.id.navigation_profile
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
